@@ -1,0 +1,302 @@
+/*newNode = (struct node *)malloc(sizeof(struct node));*/
+#include <graphics.h>
+#include<iostream.   h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <conio.h>
+#include<dos.h>
+void main()
+{
+	int gdriver = DETECT, gmode;
+	initgraph(&gdriver, &gmode, "c:\\turboc3\\bgi");
+	xyz:
+	float x[50],y[50],ee=20,e=5,q=0,qy=0,x1=0,y1=0,xx=300,yy=340;
+	char ch=NULL,cx[50],cy[50],cc=NULL,cxy[50],*pp;
+	int i=0,num=49,bb=0,win=0,go=5;
+	int l[200],r[200],t[200],b[200],p[200];
+	int j=0,c=0,qw=0;
+	x[0]=320;
+	y[0]=460;
+	for(i=15; i<=300; i+=30)
+	{
+		for(j=15; j<=605; j+=30)
+		{
+			 l[c]=j;
+			 t[c]=i;
+			 r[c]=j+30;
+			 b[c]=i+30;
+			c++;
+		j+=30;
+		}
+		i+=20;
+	}
+for(i=0; i<=num; i++)
+{
+cx[i]=NULL;
+cy[i]=NULL;
+cxy[i]='y';
+}
+cleardevice();
+rectangle(1,1,639,479);
+outtextxy(250,380,"loading...");
+rectangle(100,400,540,410);
+setcolor(14);
+for(i=0; i<=110; i++)
+{
+p[i]=50;
+}
+for( i=102; i<=538; i++)
+{
+rectangle(i,401,101,409);
+delay(10);
+}
+b[0]=45;
+win=0;
+
+while(ch!='x')
+{
+
+setcolor(2);
+if(ch=='s')
+{
+goto xyz;
+}if(win>=c)
+{cleardevice();
+settextstyle(8,0,1);
+outtextxy(300,240,"you won");
+delay(500);
+getch();
+break;
+}
+for(i=0; i<=num; i++)
+cxy[i]='y';
+bb=0;
+ch=NULL;
+if(kbhit())
+ch=getch();
+while(kbhit())
+{
+	ch=getch();
+}
+if(go<=0)
+{cleardevice();
+settextstyle(8,0,1);
+outtextxy(300,240,"out");
+delay(500);
+ch=getch();
+break;
+}
+/*if(ch=='h')
+{q+=q/2;
+ qy+=qy/2;
+}
+else if(ch=='H')
+{q-=q/2;
+ qy-=qy/2;
+} */
+if(ch==13)
+cc=13;
+if(ch==13)
+{
+for(i=0; i<=num; i++)
+{cx[i]=NULL;
+cy[i]=NULL;
+}
+if(q>0)
+{
+    qw=q;
+}
+if(q<0)
+{
+	qw=(q)*-1;
+}
+for(i=1; i<=num; i++)
+{
+x[i]=x[i-1]+q*6;
+y[i]=y[i-1]+qy*6;
+}
+}
+if(cc!=13)
+{
+if(ch==77 || ch=='d')        //R
+{
+if(ch=='d')
+e=20;
+else
+e=5;
+if(y1>0 && x1<640)
+y1-=e;
+else if(y1<=0 && x1<640)
+x1+=e;
+else if( y1<400)
+y1+=e;
+}
+else if(ch==75 || ch=='a') //L
+{
+if(ch=='a')
+e=20;
+else
+e=5;
+if(y1>0 && x1>=640)
+y1-=e;
+else if(x1>0 && y1>=0)
+x1-=e;
+else if(y1<400)
+y1+=e;
+}
+delay(10);
+cleardevice();
+line(x1,y1,xx+20,460);
+setcolor(9);
+setfillstyle(1,8);
+arc(xx+20,460,0,180,5);
+//floodfill(xx+20,460,9);
+rectangle(1,1,639,479);
+line(1,466,639,466);
+setcolor(15);
+setfillstyle(1,8);
+rectangle(xx,460,yy,465);
+floodfill(xx+1,461,15);
+for(i=0; i<go; i++)
+outtextxy(320+i*9,470,"\3");
+win=0;
+for(i=0; i<c; i++)
+{
+if(p[i]>0){
+//setfillstyle(1,3);
+//bar3d(l[i], t[i], r[i], b[i],0,0);
+rectangle(l[i],t[i],r[i],b[i]);
+sprintf(pp,"%d",p[i]);
+outtextxy(l[i]+5,t[i]+5,pp);
+}
+else
+win++;
+}
+q=((xx+20)-x1)/100;
+qy=(460-y1)/100;
+x[0]=xx+20;
+y[0]=460;
+setcolor(9);
+}
+else if(cc==13)
+{
+if(ch=='b')
+cc=8;
+for(i=0; i<=num ; i++)
+{
+for(j=0; j<c; j++)
+{
+if(p[j]<=0)
+{
+	j++;
+}
+if(p[j]>0)
+{
+if(y[i]<=b[j] && y[i]>=t[j]&& ((x[i]<=l[j]+qw && x[i]>=l[j]-qw)||(x[i]<=r[j]+qw && x[i]>=r[j]-qw)))
+{
+if(cx[i]=='+')
+cx[i]='-';
+else
+cx[i]='+';
+p[j]--;
+}
+if(x[i]<=r[j] && x[i]>=l[j] &&((y[i]<=t[j]+qy && y[i]>=t[j]-qy )||(y[i]<=b[j]+qy && y[i]>=b[j]-qy)))
+{
+if(cy[i]=='+')
+cy[i]='-';
+else
+cy[i]='+';
+p[j]--;
+}
+}
+}
+if(cxy[i]==NULL)
+i++;
+if(x[i]>=xx && x[i]<=yy && y[i]>=445 && y[i]<=470)
+cy[i]='-';
+if(y[i]<=10)
+cy[i]='+';
+else if(y[i]>=470)
+cxy[i]=NULL;
+if(cy[i]=='+')
+y[i]+=qy;
+else
+y[i]-=qy;
+if(x[i]<=10)
+{
+if(q<0)
+cx[i]='-';
+else
+cx[i]='+';
+}
+else if(x[i]>=630)
+if(q>0)
+cx[i]='-';
+else
+cx[i]='+';
+if(cx[i]=='+')
+x[i]+=q;
+else
+x[i]-=q;
+if(bb==num)
+{cc=NULL;
+go--;
+}
+if(cxy[i]==NULL)
+bb++;
+} //forloop
+delay(5);
+cleardevice();
+rectangle(1,1,639,479);
+line(1,466,639,466);
+setcolor(15);
+setfillstyle(1,8);
+rectangle(xx,460,yy,465);
+floodfill(xx+1,461,15);
+for(i=0; i<go; i++)
+outtextxy(320+i*9,470,"\3");
+win=0;
+for(i=0; i<c; i++)
+{
+if(p[i]>0){
+//setfillstyle(1,3);
+//setcolor(15);
+//bar3d(l[i], t[i], r[i], b[i],0,0);
+rectangle(l[i],t[i],r[i],b[i]);
+sprintf(pp,"%d",p[i]);
+outtextxy(l[i]+5,t[i]+5,pp);
+}
+else
+win++;
+}
+for(i=0; i<=num; i++)
+{
+setcolor(9);
+setfillstyle(1,14);
+fillellipse(x[i],y[i],6,6);
+}
+if(ch==75)        //L
+{
+if(xx>=15)
+{xx-=ee;
+yy-=ee;
+}
+}
+else if(ch==77)
+{
+if(yy<=625)
+{xx+=ee;
+yy+=ee;
+}
+}
+setcolor(2);
+}
+if(ch=='p')
+{setcolor(14);
+outtextxy(10,470,"PAUSE");
+getch();
+}
+}//loop*/
+cleardevice();
+closegraph();
+}
